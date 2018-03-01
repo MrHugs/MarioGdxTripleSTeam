@@ -11,9 +11,7 @@ public class Mario extends MyActor {
 	Body body;
 	FixtureDef fixtura;
 	
-//	private Body createBody() {
-//		Body body;
-//	}
+
 	
 	
 	
