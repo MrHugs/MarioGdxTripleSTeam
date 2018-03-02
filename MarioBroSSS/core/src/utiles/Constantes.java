@@ -8,5 +8,6 @@ public class Constantes {
 	public final static boolean ANDROID = false;
 	public final static float VELOCIDAD_JUGADOR = 0.5f;
 	public final static boolean START_WITH_DEBUG = true;
+	public final static boolean ALLOW_VERTICAL_CAMERA_MOVEMENT = false;
 
 }

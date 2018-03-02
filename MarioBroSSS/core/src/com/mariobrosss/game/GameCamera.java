@@ -6,6 +6,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 
+import utiles.Constantes;
+
 public class GameCamera implements InputProcessor {
 
 	OrthographicCamera camera;
@@ -28,10 +30,11 @@ public class GameCamera implements InputProcessor {
 
 	private void move() {
 		float x = (screenX - (Gdx.graphics.getWidth() / 2)) * Gdx.graphics.getDeltaTime();
-		float y = (screenY - (Gdx.graphics.getHeight() / 2)) * Gdx.graphics.getDeltaTime();
+		float y = -((screenY - (Gdx.graphics.getHeight() / 2)) * Gdx.graphics.getDeltaTime());
+		y = Constantes.ALLOW_VERTICAL_CAMERA_MOVEMENT ? y : 0;
 		x *= CAMERA_SPEED_MULTIPLIER;
 		y *= CAMERA_SPEED_MULTIPLIER;
-		camera.position.set(camera.position.x + x, camera.position.y + -y, camera.position.z);
+		camera.position.set(camera.position.x + x, camera.position.y + y, camera.position.z);
 
 	}
 
