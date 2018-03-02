@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import actores.Mario;
 import actores.Suelo;
 import utiles.Constantes;
 import utiles.MetricSize;
@@ -28,6 +29,7 @@ public class MyGame {
 	Matrix4 debugMatrix;
 	Suelo suelo;
 	Suelo suelo2;
+	Mario mario;
 	InputAdapter prueba;
 	boolean pausa = false;
 
@@ -41,6 +43,8 @@ public class MyGame {
 				Gdx.graphics.getHeight() * Constantes.FACTOR_ZOOM_CAMERA));
 		suelo = new Suelo(new MetricVector2(-512f, -256f), new MetricSize(2048, 64), world);
 		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 48), world);
+		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(20, 30));
+		stage.addActor(mario);
 		Gdx.input.setInputProcessor(camera);
 	}
 
@@ -52,13 +56,13 @@ public class MyGame {
 	}
 
 	public void render() {
+		this.act();
 		stage.draw();
 		camera.update();
 		batch.setProjectionMatrix(camera.combined());
 		debugMatrix = batch.getProjectionMatrix().cpy().scale(Constantes.PIXELS_TO_METERS, Constantes.PIXELS_TO_METERS,
 				0);
 		batch.begin();
-		// suelo.sprite.draw(batch);
 		suelo.draw(batch);
 		suelo2.draw(batch);
 		batch.end();

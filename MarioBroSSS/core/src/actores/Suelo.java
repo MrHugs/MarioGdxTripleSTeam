@@ -23,12 +23,12 @@ public class Suelo extends Actor implements Elemento {
 
 	Body body;
 	Texture texture;
-	RepeatablePolygonSprite rps;
-	private TextureRegion textureRegion;
-	// public Sprite sprite;
+	private TextureRegion textureRegion; 
+	MetricSize size;
 
 	public Suelo(MetricVector2 position, MetricSize size, World world) {
 		super();
+		this.size = size;
 		BodyDef bodydef = new BodyDef();
 		bodydef.type = BodyType.StaticBody;
 		bodydef.position.set(position.getMetersX(), position.getMetersY());
@@ -37,16 +37,17 @@ public class Suelo extends Actor implements Elemento {
 		shape.setAsBox(size.getMetersWidth(), size.getMetersHeight());
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
+		fixture.density=1f;
 		body.createFixture(fixture);
 		body.setUserData(this);
 		texture = new Texture(Gdx.files.internal("GroundBrick.png"));
 		texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		textureRegion = new TextureRegion(texture);
-		defineTextureRegion(position, size);
+		defineTextureRegion(position);
 		shape.dispose();
 	}
 
-	private void defineTextureRegion(MetricVector2 position, MetricSize size) {
+	private void defineTextureRegion(MetricVector2 position) {
 		textureRegion.setRegionX((int) (position.getPixelsX() - size.getPixelsWidth()));
 		textureRegion.setRegionY((int) (position.getPixelsY() - size.getPixelsHeight()));
 		textureRegion.setRegionWidth((int) (size.getPixelsWidth() * 2));
@@ -63,4 +64,9 @@ public class Suelo extends Actor implements Elemento {
 		return false;
 	}
 
+	@Override
+	public void act(float delta) {
+		this.defineTextureRegion(new MetricVector2(body.getPosition().x, body.getPosition().y));
+
+	}
 }

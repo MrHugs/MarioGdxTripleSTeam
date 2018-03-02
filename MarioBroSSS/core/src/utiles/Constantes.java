@@ -2,7 +2,7 @@ package utiles;
 
 public class Constantes {
 	public final static float GRAVEDAD_X = 0f;
-	public final static float GRAVEDAD_Y = 0f;
+	public final static float GRAVEDAD_Y = -10f;
 	public final static float FACTOR_ZOOM_CAMERA = 1f;
 	public final static float PIXELS_TO_METERS = 100f;
 	public final static boolean ANDROID = false;
