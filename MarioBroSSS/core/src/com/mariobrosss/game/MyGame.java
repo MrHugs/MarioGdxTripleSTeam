@@ -40,13 +40,12 @@ public class MyGame {
 		camera = new GameCamera(new OrthographicCamera(Gdx.graphics.getWidth() * Constantes.FACTOR_ZOOM_CAMERA,
 				Gdx.graphics.getHeight() * Constantes.FACTOR_ZOOM_CAMERA));
 		suelo = new Suelo(new MetricVector2(-512f, -256f), new MetricSize(2048, 64), world);
-		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 64), world);
+		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 48), world);
 		Gdx.input.setInputProcessor(camera);
 	}
 
 	public void act() {
 		if (!pausa) {
-
 			world.step(1f / 60f, 6, 2);
 			stage.act();
 		}
