@@ -1,7 +1,7 @@
 package com.mariobrosss.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,18 +13,22 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import actores.Suelo;
 import utiles.Constantes;
+import utiles.MetricSize;
+import utiles.MetricVector2;
 
 public class MyGame {
 
-	private static final int FactorZoomCamera = 4;
+	private static final float FactorZoomCamera = 1;
 	World world;
 	Stage stage;
 	SpriteBatch batch;
 	InputAdapter input;
-	OrthographicCamera camera;
+	GameCamera camera;
 	Box2DDebugRenderer debugRenderer;
-	Matrix4  debugMatrix;
+	Matrix4 debugMatrix;
 	Suelo suelo;
+	Suelo suelo2;
+	InputAdapter prueba;
 	boolean pausa = false;
 
 	public MyGame() {
@@ -33,30 +37,36 @@ public class MyGame {
 		batch = new SpriteBatch();
 		debugRenderer = new Box2DDebugRenderer();
 		stage = new Stage();
-		camera = new OrthographicCamera(Gdx.graphics.getWidth()*FactorZoomCamera,Gdx.graphics.getHeight()*FactorZoomCamera);
-		suelo = new Suelo(new Vector2(0,50), world);
-		
+		camera = new GameCamera(new OrthographicCamera(Gdx.graphics.getWidth() * Constantes.FACTOR_ZOOM_CAMERA,
+				Gdx.graphics.getHeight() * Constantes.FACTOR_ZOOM_CAMERA));
+		suelo = new Suelo(new MetricVector2(-512f, -256f), new MetricSize(2048, 64), world);
+		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 64), world);
+		Gdx.input.setInputProcessor(camera);
 	}
 
 	public void act() {
 		if (!pausa) {
+
 			world.step(1f / 60f, 6, 2);
 			stage.act();
 		}
 	}
-	
+
 	public void render() {
 		stage.draw();
 		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-		debugMatrix=batch.getProjectionMatrix().cpy().scale(Constantes.PIXELS_TO_METERS, Constantes.PIXELS_TO_METERS, 0);
+		batch.setProjectionMatrix(camera.combined());
+		debugMatrix = batch.getProjectionMatrix().cpy().scale(Constantes.PIXELS_TO_METERS, Constantes.PIXELS_TO_METERS,
+				0);
 		batch.begin();
-		suelo.sprite.draw(batch);
+		// suelo.sprite.draw(batch);
+		suelo.draw(batch);
+		suelo2.draw(batch);
 		batch.end();
-		debugRenderer.render(world,debugMatrix);
-		
+		debugRenderer.render(world, debugMatrix);
+
 	}
-	
+
 	public void dispose() {
 		world.dispose();
 		batch.dispose();

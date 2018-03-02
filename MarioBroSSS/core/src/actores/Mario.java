@@ -10,22 +10,10 @@ public class Mario extends MyActor {
 	Sprite sprite;
 	Body body;
 	FixtureDef fixtura;
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public void colisiona() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -33,15 +21,17 @@ public class Mario extends MyActor {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	@Override
 	public void act() {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
