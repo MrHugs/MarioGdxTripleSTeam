@@ -38,6 +38,7 @@ public class Mario extends MyActor {
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
 		fixture.density=7f;
+		body.setFixedRotation(true);
 		body.createFixture(fixture);
 		body.setUserData(this);
 		texture = new Texture(Gdx.files.internal("mariobros.png"));
