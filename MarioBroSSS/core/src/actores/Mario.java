@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -22,10 +23,13 @@ public class Mario extends MyActor {
 	Body body;
 	FixtureDef fixtura;
 	Sprite sprite;
+	private TextureRegion textureRegion;
 	Texture texture;
-	
+	MetricSize size;
+
 	public Mario(MetricVector2 position, World world, MetricSize size) {
 		super();
+		this.size = size;
 		BodyDef bodydef = new BodyDef();
 		bodydef.type = BodyType.DynamicBody;
 		bodydef.position.set(position.getMetersX(), position.getMetersY());
@@ -37,9 +41,17 @@ public class Mario extends MyActor {
 		body.createFixture(fixture);
 		body.setUserData(this);
 		texture = new Texture(Gdx.files.internal("mariobros.png"));
-		sprite = new Sprite(texture,20,30);
+		textureRegion = new TextureRegion(texture);
+		defineTextureRegion(position);
 		shape.dispose();
 
+	}
+
+	private void defineTextureRegion(MetricVector2 position) {
+		textureRegion.setRegionX((int) (position.getPixelsX() - size.getPixelsWidth()));
+		textureRegion.setRegionY((int) (position.getPixelsY() - size.getPixelsHeight()));
+		textureRegion.setRegionWidth((int) (size.getPixelsWidth() * 2));
+		textureRegion.setRegionHeight((int) (size.getPixelsHeight() * 2));
 	}
 
 	public void colisiona() {
@@ -47,17 +59,16 @@ public class Mario extends MyActor {
 
 	}
 
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		super.draw(batch, parentAlpha);
-		batch.draw(texture,body.getPosition().x,body.getPosition().y,200,200);
+	public void draw(Batch batch) {
+		batch.draw(texture, body.getPosition().x * Constantes.PIXELS_TO_METERS - textureRegion.getRegionWidth() / 2,
+				body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2,
+				textureRegion.getRegionWidth(),
+				textureRegion.getRegionHeight());
+
 	}
+
 	
-	public void update() {
-		sprite.setPosition((body.getPosition().x * Constantes.PIXELS_TO_METERS) - sprite.getWidth() / 2,
-		          (body.getPosition().y * Constantes.PIXELS_TO_METERS) - sprite.getHeight() / 2);
-	}
-	
+
 	@Override
 	public boolean isColisionable() {
 		// TODO Auto-generated method stub
@@ -66,7 +77,7 @@ public class Mario extends MyActor {
 
 	@Override
 	public void act() {
-		this.update();
+		this.defineTextureRegion(new MetricVector2(body.getPosition().x, body.getPosition().y));
 	}
 
 	@Override
