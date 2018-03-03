@@ -1,5 +1,6 @@
 package actores;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -25,7 +26,7 @@ public class Mario extends MyActor {
 	private TextureRegion textureRegion;
 	Texture texture;
 	MetricSize size;
-
+	public int isJumping= 0;
 	public Mario(MetricVector2 position, World world, MetricSize size) {
 		super();
 		this.size = size;
@@ -39,7 +40,8 @@ public class Mario extends MyActor {
 		fixture.shape = shape;
 		fixture.density=7f;
 		body.createFixture(fixture);
-		body.setUserData(this);
+		body.setUserData("mario");
+		body.setFixedRotation(true);
 		texture = new Texture(Gdx.files.internal("mariobros.png"));
 		textureRegion = new TextureRegion(texture);
 		defineTextureRegion(position);
@@ -84,5 +86,6 @@ public class Mario extends MyActor {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }

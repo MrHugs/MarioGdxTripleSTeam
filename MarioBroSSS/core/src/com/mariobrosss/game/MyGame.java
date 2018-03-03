@@ -48,6 +48,7 @@ public class MyGame {
 		movimiento = new Movimiento(mario);
 		stage.addActor(mario);
 //		Gdx.input.setInputProcessor(camera);
+		world.setContactListener(new ListenerSalto(mario));
 		Gdx.input.setInputProcessor(movimiento);
 	}
 
