@@ -1,7 +1,6 @@
 package com.mariobrosss.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import actores.Bala;
 import actores.Mario;
 import actores.Suelo;
 import utiles.Constantes;
@@ -32,6 +32,7 @@ public class MyGame {
 	Suelo suelo;
 	Suelo suelo2;
 	Mario mario;
+	Bala bala ;
 	InputAdapter prueba;
 	Music music;
 	boolean pausa = false;
@@ -48,12 +49,13 @@ public class MyGame {
 		suelo = new Suelo(new MetricVector2(-512f, -256f), new MetricSize(2048, 64), world);
 		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 48), world);
 		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(20, 30));
+		bala = new Bala(new MetricVector2(0, 200), world, new MetricSize(40, 30));
 		movimiento = new Movimiento(mario);
 		stage.addActor(mario);
 		Gdx.input.setInputProcessor(camera);
 		world.setContactListener(new ListenerSalto(mario));
 		Gdx.input.setInputProcessor(movimiento);
-		music.play();
+		//music.play();
 		music.setLooping(true);
 		music.setVolume(0.9f);
 	}
@@ -83,6 +85,7 @@ public class MyGame {
 
 	public void dispose() {
 		world.dispose();
+		music.dispose();
 		batch.dispose();
 		stage.dispose();
 	}
