@@ -3,6 +3,7 @@ package com.mariobrosss.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -32,10 +33,12 @@ public class MyGame {
 	Suelo suelo2;
 	Mario mario;
 	InputAdapter prueba;
+	Music music;
 	boolean pausa = false;
 
 	public MyGame() {
 		super();
+		music = Gdx.audio.newMusic(Gdx.files.internal("marioTheme.mp3"));
 		world = new World(new Vector2(Constantes.GRAVEDAD_X, Constantes.GRAVEDAD_Y), true);
 		batch = new SpriteBatch();
 		debugRenderer = new Box2DDebugRenderer();
@@ -47,9 +50,12 @@ public class MyGame {
 		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(20, 30));
 		movimiento = new Movimiento(mario);
 		stage.addActor(mario);
-//		Gdx.input.setInputProcessor(camera);
+		Gdx.input.setInputProcessor(camera);
 		world.setContactListener(new ListenerSalto(mario));
 		Gdx.input.setInputProcessor(movimiento);
+		music.play();
+		music.setLooping(true);
+		music.setVolume(0.9f);
 	}
 
 	public void act() {
