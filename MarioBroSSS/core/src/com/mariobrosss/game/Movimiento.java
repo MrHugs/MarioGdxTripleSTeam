@@ -16,7 +16,31 @@ public class Movimiento implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
+		switch (keycode) {
+		case 87 :
+			if (mario.isJumping < 2) {
+				mario.body.applyForceToCenter(new Vector2(0, 500), true);
+				mario.isJumping++;
+			}
+
+			break;
+		case 65:
+			mario.body.applyLinearImpulse(new Vector2(-2, 0), mario.body.getLocalCenter(), true);
+			if (mario.body.getLinearVelocity().x< -2 ) {
+				mario.body.setLinearVelocity(-2, mario.body.getLinearVelocity().y);
+			}
+			break;
+
+		case 68:
+			mario.body.applyLinearImpulse(new Vector2(2, 0), mario.body.getLocalCenter(), true);
+			if (mario.body.getLinearVelocity().x>2 ) {
+				mario.body.setLinearVelocity(2, mario.body.getLinearVelocity().y);
+			}
+			break;
+
+		default:
+			break;
+		}
 		return false;
 	}
 
@@ -31,17 +55,25 @@ public class Movimiento implements InputProcessor {
 		System.out.println(character);
 		switch (character) {
 		case 'w':
-			mario.body.applyForceToCenter(new Vector2(0, 500), true);
+			if (mario.isJumping < 2) {
+				mario.body.applyForceToCenter(new Vector2(0, 500), true);
+				mario.isJumping++;
+			}
 
 			break;
+			
 		case 'a':
-			mario.body.applyForceToCenter(new Vector2(-250, 0), true);
-
+			mario.body.applyLinearImpulse(new Vector2(-2, 0), mario.body.getLocalCenter(), true);
+			if (mario.body.getLinearVelocity().x< -2 ) {
+				mario.body.setLinearVelocity(-2, mario.body.getLinearVelocity().y);
+			}
 			break;
 
 		case 'd':
-			mario.body.applyForceToCenter(new Vector2(250, 0), true);
-
+			mario.body.applyLinearImpulse(new Vector2(2, 0), mario.body.getLocalCenter(), true);
+			if (mario.body.getLinearVelocity().x>2 ) {
+				mario.body.setLinearVelocity(2, mario.body.getLinearVelocity().y);
+			}
 			break;
 
 		default:
