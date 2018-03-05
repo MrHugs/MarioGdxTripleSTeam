@@ -32,7 +32,7 @@ public class MyGame {
 	Suelo suelo;
 	Suelo suelo2;
 	Mario mario;
-	Bala bala ;
+	Bala bala;
 	InputAdapter prueba;
 	Music music;
 	boolean pausa = false;
@@ -44,8 +44,8 @@ public class MyGame {
 		batch = new SpriteBatch();
 		debugRenderer = new Box2DDebugRenderer();
 		stage = new Stage();
-		camera = new GameCamera(new OrthographicCamera(Gdx.graphics.getWidth() * Constantes.FACTOR_ZOOM_CAMERA,
-				Gdx.graphics.getHeight() * Constantes.FACTOR_ZOOM_CAMERA));
+		camera = new GameCamera(new OrthographicCamera(Gdx.graphics.getWidth() / Constantes.FACTOR_ZOOM_CAMERA,
+				Gdx.graphics.getHeight() / Constantes.FACTOR_ZOOM_CAMERA));
 		suelo = new Suelo(new MetricVector2(-512f, -256f), new MetricSize(2048, 64), world);
 		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 48), world);
 		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(20, 30));
@@ -70,7 +70,7 @@ public class MyGame {
 
 	public void render() {
 		this.act();
-		stage.draw();
+		stage.act();
 		camera.update();
 		batch.setProjectionMatrix(camera.combined());
 		debugMatrix = batch.getProjectionMatrix().cpy().scale(Constantes.PIXELS_TO_METERS, Constantes.PIXELS_TO_METERS,
