@@ -18,10 +18,14 @@ public class ListenerSalto implements ContactListener {
 
 	@Override
 	public void beginContact(Contact contact) {
-		System.out.println(contact.getFixtureA().getBody().getUserData().toString());
-		System.out.println(contact.getFixtureB().getBody().getUserData().toString());
-		if (contact.getFixtureA().getBody().getUserData().toString().equals("suelo")) {
-			mario.isJumping = 0;
+		//A veces intentais acceder a elementos que no existen. seguramente porque algún elemento
+		//que puede colisionar no tiene userData
+		if (contact.getFixtureA().getBody().getUserData() != null && contact.getFixtureB().getBody().getUserData()!=null) {
+			System.out.println(contact.getFixtureA().getBody().getUserData().toString());
+			System.out.println(contact.getFixtureB().getBody().getUserData().toString());
+			if (contact.getFixtureA().getBody().getUserData().toString().equals("suelo")) {
+				mario.isJumping = 0;
+			}
 		}
 	}
 

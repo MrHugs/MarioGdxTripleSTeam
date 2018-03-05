@@ -68,7 +68,7 @@ public class Mario extends MyActor {
 				body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2,
 				textureRegion.getRegionWidth(),
 				textureRegion.getRegionHeight());
-		System.out.println(body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2);
+//		System.out.println(body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2);
 
 	}
 
