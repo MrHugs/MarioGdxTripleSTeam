@@ -33,7 +33,7 @@ public class Bala extends MyActor {
 		super();
 		this.size = size;
 		BodyDef bodydef = new BodyDef();
-		bodydef.type = BodyType.DynamicBody;
+		bodydef.type = BodyType.KinematicBody;
 		bodydef.position.set(position.getMetersX(), position.getMetersY());
 		body = world.createBody(bodydef);
 		PolygonShape shape = new PolygonShape();
@@ -41,17 +41,19 @@ public class Bala extends MyActor {
 		fixture.shape = shape;
 		fixture.density = 7f;
 		fixture.friction = 1f;
-		//Esto cambiado porque en el archivo json se llama "Name"
+		texture = new Texture(loader.getImagePath("Name"));
+		textureRegion = new TextureRegion(texture);
+		// Esto cambiado porque en el archivo json se llama "Name"
 		loader.attachFixture(body, "Name", fixture, 1);
 		origin = loader.getOrigin("Name", 1).cpy();
+		defineTextureRegion(position);
 
 	}
 
 	public void draw(Batch batch) {
-		batch.draw(texture, body.getPosition().x * Constantes.PIXELS_TO_METERS - textureRegion.getRegionWidth() / 2,
-				body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2,
-				textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
-		System.out.println("body bala "+(body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2));
+		batch.draw(texture, body.getPosition().x * Constantes.PIXELS_TO_METERS - textureRegion.getRegionWidth() / 100,
+				body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 100,
+				textureRegion.getRegionWidth() * 1.25f, textureRegion.getRegionHeight());
 
 	}
 
@@ -67,9 +69,16 @@ public class Bala extends MyActor {
 		return false;
 	}
 
+	private void defineTextureRegion(MetricVector2 position) {
+		textureRegion.setRegionX((int) (position.getPixelsX() - size.getPixelsWidth()));
+		textureRegion.setRegionY((int) (position.getPixelsY() - size.getPixelsHeight()));
+		textureRegion.setRegionWidth((int) (size.getPixelsWidth() * 2));
+		textureRegion.setRegionHeight((int) (size.getPixelsHeight() * 2));
+	}
+
 	@Override
 	public void act() {
-		// this.defineTextureRegion(new MetricVector2(body.getPosition().x,
+		this.defineTextureRegion(new MetricVector2(body.getPosition().x, body.getPosition().y));
 		// body.getPosition().y));
 
 	}

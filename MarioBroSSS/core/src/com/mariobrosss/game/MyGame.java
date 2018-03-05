@@ -49,7 +49,7 @@ public class MyGame {
 		suelo = new Suelo(new MetricVector2(-512f, -256f), new MetricSize(2048, 64), world);
 		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 48), world);
 		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(20, 30));
-		bala = new Bala(new MetricVector2(0, 200), world, new MetricSize(40, 30));
+		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
 		movimiento = new Movimiento(mario);
 		stage.addActor(mario);
 		stage.addActor(bala);
@@ -79,6 +79,7 @@ public class MyGame {
 		mario.draw(batch);
 		suelo.draw(batch);
 		suelo2.draw(batch);
+		bala.draw(batch);
 		batch.end();
 		debugRenderer.render(world, debugMatrix);
 
