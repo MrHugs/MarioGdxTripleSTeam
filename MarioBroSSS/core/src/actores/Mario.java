@@ -70,6 +70,7 @@ public class Mario extends MyActor {
 				textureRegion.getRegionWidth(),
 				textureRegion.getRegionHeight());
 
+
 	}
 
 

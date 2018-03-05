@@ -19,9 +19,7 @@ import utiles.MetricSize;
 import utiles.MetricVector2;
 
 public class Bala extends MyActor {
-	
-	
-	
+
 	public Body body;
 	FixtureDef fixture;
 	Sprite sprite;
@@ -30,45 +28,37 @@ public class Bala extends MyActor {
 	MetricSize size;
 	BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("balaChachipi.json"));
 	Vector2 origin;
-	
-	public Bala(MetricVector2 position,World world, MetricSize size) {
+
+	public Bala(MetricVector2 position, World world, MetricSize size) {
 		super();
-		this.size=size;
+		this.size = size;
 		BodyDef bodydef = new BodyDef();
 		bodydef.type = BodyType.DynamicBody;
-		bodydef.position.set(position.getMetersX(),position.getMetersY());
+		bodydef.position.set(position.getMetersX(), position.getMetersY());
 		body = world.createBody(bodydef);
 		PolygonShape shape = new PolygonShape();
-		
+		fixture = new FixtureDef();
 		fixture.shape = shape;
-		fixture.density=7f;
-		fixture.friction=1f;
-		loader.attachFixture(body, "balaChachipi", fixture, 1);
-		origin=loader.getOrigin("balaChachipi", 1).cpy();
-		
-		
+		fixture.density = 7f;
+		fixture.friction = 1f;
+		//Esto cambiado porque en el archivo json se llama "Name"
+		loader.attachFixture(body, "Name", fixture, 1);
+		origin = loader.getOrigin("Name", 1).cpy();
 
-		
 	}
-	
 
-	
-
-	
-	
 	public void draw(Batch batch) {
 		batch.draw(texture, body.getPosition().x * Constantes.PIXELS_TO_METERS - textureRegion.getRegionWidth() / 2,
 				body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2,
-				textureRegion.getRegionWidth(),
-				textureRegion.getRegionHeight());
-		System.out.println(body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2);
+				textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+		System.out.println("body bala "+(body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2));
 
 	}
-	
+
 	@Override
 	public void colisiona() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -79,14 +69,15 @@ public class Bala extends MyActor {
 
 	@Override
 	public void act() {
-		//this.defineTextureRegion(new MetricVector2(body.getPosition().x, body.getPosition().y));
-		
+		// this.defineTextureRegion(new MetricVector2(body.getPosition().x,
+		// body.getPosition().y));
+
 	}
 
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

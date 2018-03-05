@@ -52,6 +52,7 @@ public class MyGame {
 		bala = new Bala(new MetricVector2(0, 200), world, new MetricSize(40, 30));
 		movimiento = new Movimiento(mario);
 		stage.addActor(mario);
+		stage.addActor(bala);
 		Gdx.input.setInputProcessor(camera);
 		world.setContactListener(new ListenerSalto(mario));
 		Gdx.input.setInputProcessor(movimiento);
