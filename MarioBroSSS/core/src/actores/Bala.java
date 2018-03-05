@@ -77,16 +77,9 @@ public class Bala extends MyActor {
 	}
 
 	@Override
-	public void act() {
+	public void act(float delta) {
+		super.act(delta);
 		this.defineTextureRegion(new MetricVector2(body.getPosition().x, body.getPosition().y));
-		// body.getPosition().y));
-
-	}
-
-	@Override
-	public void render() {
-		// TODO Auto-generated method stub
-
 	}
 
 }
