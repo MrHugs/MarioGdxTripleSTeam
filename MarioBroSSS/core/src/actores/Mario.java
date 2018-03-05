@@ -64,11 +64,11 @@ public class Mario extends MyActor {
 	}
 
 	public void draw(Batch batch) {
-		batch.draw(texture, body.getPosition().x * Constantes.PIXELS_TO_METERS - textureRegion.getRegionWidth() / 2,
+		batch.draw(texture,
+				body.getPosition().x * Constantes.PIXELS_TO_METERS - textureRegion.getRegionWidth() / 2,
 				body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2,
 				textureRegion.getRegionWidth(),
 				textureRegion.getRegionHeight());
-		System.out.println(body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2);
 
 	}
 

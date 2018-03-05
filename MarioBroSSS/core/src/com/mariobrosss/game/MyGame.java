@@ -55,7 +55,7 @@ public class MyGame {
 		Gdx.input.setInputProcessor(camera);
 		world.setContactListener(new ListenerSalto(mario));
 		Gdx.input.setInputProcessor(movimiento);
-		//music.play();
+		music.play();
 		music.setLooping(true);
 		music.setVolume(0.9f);
 	}
