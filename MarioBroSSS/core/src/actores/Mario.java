@@ -47,6 +47,7 @@ public class Mario extends MyActor {
 		textureRegion = new TextureRegion(texture);
 		defineTextureRegion(position);
 		shape.dispose();
+		
 
 	}
 
