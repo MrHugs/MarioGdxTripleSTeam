@@ -1,6 +1,8 @@
 package com.mariobrosss.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 
 import actores.Mario;
@@ -8,10 +10,15 @@ import actores.Mario;
 public class Movimiento implements InputProcessor {
 
 	Mario mario;
+	Sound sound = Gdx.audio.newSound(Gdx.files.internal("marioSaltoFixed.mp3"));
+	
+
 
 	public Movimiento(Mario mario) {
 		super();
 		this.mario = mario;
+		sound.setLooping(0, false);
+		sound.setVolume(0, 0.70f);
 	}
 
 	@Override
@@ -57,6 +64,7 @@ public class Movimiento implements InputProcessor {
 		case 'w':
 			if (mario.isJumping < 2) {
 				mario.body.applyForceToCenter(new Vector2(0, 500), true);
+				sound.play();
 				mario.isJumping++;
 			}
 

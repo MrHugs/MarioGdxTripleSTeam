@@ -1,11 +1,11 @@
 package actores;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -26,7 +26,8 @@ public class Mario extends MyActor {
 	private TextureRegion textureRegion;
 	Texture texture;
 	MetricSize size;
-	public int isJumping= 0;
+	public int isJumping = 0;
+
 	public Mario(MetricVector2 position, World world, MetricSize size) {
 		super();
 		this.size = size;
@@ -38,24 +39,22 @@ public class Mario extends MyActor {
 		shape.setAsBox(size.getMetersWidth(), size.getMetersHeight());
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
-		fixture.density=7f;
-		body.setFixedRotation(true);
+		fixture.density = 7f;
+		fixture.friction = 1f;
 		body.createFixture(fixture);
 		body.setUserData("mario");
 		body.setFixedRotation(true);
-		texture = new Texture(Gdx.files.internal("mariobros.png"));
-		textureRegion = new TextureRegion(texture);
-		defineTextureRegion(position);
+		sprite = defineSprite();
 		shape.dispose();
-		
-
 	}
 
-	private void defineTextureRegion(MetricVector2 position) {
-		textureRegion.setRegionX((int) (position.getPixelsX() - size.getPixelsWidth()));
-		textureRegion.setRegionY((int) (position.getPixelsY() - size.getPixelsHeight()));
-		textureRegion.setRegionWidth((int) (size.getPixelsWidth() * 2));
-		textureRegion.setRegionHeight((int) (size.getPixelsHeight() * 2));
+	private Sprite defineSprite() {
+		Sprite sprite = new Sprite(new Texture(Gdx.files.internal("mariobros.png")));
+		sprite.setBounds(body.getPosition().x * Constantes.PIXELS_TO_METERS - sprite.getWidth() / 2,
+				body.getPosition().y * Constantes.PIXELS_TO_METERS - sprite.getHeight() / 2, size.getPixelsWidth() * 2,
+				size.getPixelsHeight() * 2);
+		sprite.setOriginCenter();
+		return sprite;
 	}
 
 	public void colisiona() {
@@ -64,30 +63,28 @@ public class Mario extends MyActor {
 	}
 
 	public void draw(Batch batch) {
-		batch.draw(texture, body.getPosition().x * Constantes.PIXELS_TO_METERS - textureRegion.getRegionWidth() / 2,
-				body.getPosition().y * Constantes.PIXELS_TO_METERS - textureRegion.getRegionHeight() / 2,
-				textureRegion.getRegionWidth(),
-				textureRegion.getRegionHeight());
+		super.draw(batch, 1);
+		sprite.draw(batch);
 
 	}
 
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		updateSpritePosition();
+	}
+
+	private void updateSpritePosition() {
+		float x, y;
+		x = body.getPosition().x * Constantes.PIXELS_TO_METERS - sprite.getWidth() / 2;
+		y = body.getPosition().y * Constantes.PIXELS_TO_METERS - sprite.getHeight() / 2;
+		sprite.setPosition(x, y);
+		sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
+	}
 
 	@Override
 	public boolean isColisionable() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
-
-	@Override
-	public void act() {
-		this.defineTextureRegion(new MetricVector2(body.getPosition().x, body.getPosition().y));
-	}
-
-	@Override
-	public void render() {
-		// TODO Auto-generated method stub
-
-	}
-
 
 }

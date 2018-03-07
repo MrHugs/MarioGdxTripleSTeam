@@ -1,8 +1,8 @@
 package com.mariobrosss.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import actores.Bala;
 import actores.Mario;
 import actores.Suelo;
 import utiles.Constantes;
@@ -28,28 +29,36 @@ public class MyGame {
 	Movimiento movimiento;
 	Box2DDebugRenderer debugRenderer;
 	Matrix4 debugMatrix;
-	Suelo suelo;
-	Suelo suelo2;
+	Suelo suelo, suelo2, suelo3;
 	Mario mario;
+	Bala bala;
 	InputAdapter prueba;
+	Music music;
 	boolean pausa = false;
 
 	public MyGame() {
 		super();
+		music = Gdx.audio.newMusic(Gdx.files.internal("marioTheme.mp3"));
 		world = new World(new Vector2(Constantes.GRAVEDAD_X, Constantes.GRAVEDAD_Y), true);
 		batch = new SpriteBatch();
 		debugRenderer = new Box2DDebugRenderer();
 		stage = new Stage();
-		camera = new GameCamera(new OrthographicCamera(Gdx.graphics.getWidth() * Constantes.FACTOR_ZOOM_CAMERA,
-				Gdx.graphics.getHeight() * Constantes.FACTOR_ZOOM_CAMERA));
+		camera = new GameCamera(new OrthographicCamera(Gdx.graphics.getWidth() / Constantes.FACTOR_ZOOM_CAMERA,
+				Gdx.graphics.getHeight() / Constantes.FACTOR_ZOOM_CAMERA));
 		suelo = new Suelo(new MetricVector2(-512f, -256f), new MetricSize(2048, 64), world);
 		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 48), world);
+		suelo3 = new Suelo(new MetricVector2(100f, -200f), new MetricSize(90, 60), world);
 		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(20, 30));
+		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
 		movimiento = new Movimiento(mario);
 		stage.addActor(mario);
-	//	Gdx.input.setInputProcessor(camera);
+		stage.addActor(bala);
+		Gdx.input.setInputProcessor(camera);
 		world.setContactListener(new ListenerSalto(mario));
 		Gdx.input.setInputProcessor(movimiento);
+		music.play();
+		music.setLooping(true);
+		music.setVolume(0.9f);
 	}
 
 	public void act() {
@@ -61,7 +70,7 @@ public class MyGame {
 
 	public void render() {
 		this.act();
-		stage.draw();
+		stage.act();
 		camera.update();
 		batch.setProjectionMatrix(camera.combined());
 		debugMatrix = batch.getProjectionMatrix().cpy().scale(Constantes.PIXELS_TO_METERS, Constantes.PIXELS_TO_METERS,
@@ -70,6 +79,8 @@ public class MyGame {
 		mario.draw(batch);
 		suelo.draw(batch);
 		suelo2.draw(batch);
+		suelo3.draw(batch);
+		bala.draw(batch);
 		batch.end();
 		debugRenderer.render(world, debugMatrix);
 
@@ -77,6 +88,7 @@ public class MyGame {
 
 	public void dispose() {
 		world.dispose();
+		music.dispose();
 		batch.dispose();
 		stage.dispose();
 	}
