@@ -21,7 +21,7 @@ public class ListenerSalto implements ContactListener {
 		//que puede colisionar no tiene userData
 		if (contact.getFixtureA().getBody().getUserData() != null && contact.getFixtureB().getBody().getUserData()!=null) {
 			if (contact.getFixtureA().getBody().getUserData().toString().equals("suelo")) {
-				if (contact.getFixtureA().getBody().getPosition().y<=contact.getFixtureB().getBody().getPosition().y) {
+				if (contact.getFixtureA().getBody().getPosition().y <=contact.getFixtureB().getBody().getPosition().y) {
 					mario.isJumping = 0;
 				}
 				
