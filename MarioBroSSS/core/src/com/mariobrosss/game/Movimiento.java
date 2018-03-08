@@ -3,16 +3,17 @@ package com.mariobrosss.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 
 import actores.Mario;
+import utiles.Constantes;
 
 public class Movimiento implements InputProcessor {
 
 	Mario mario;
 	Sound sound = Gdx.audio.newSound(Gdx.files.internal("marioSaltoFixed.mp3"));
-	
-
+	GameCamera camera;
 
 	public Movimiento(Mario mario) {
 		super();
@@ -21,28 +22,22 @@ public class Movimiento implements InputProcessor {
 		sound.setVolume(0, 0.70f);
 	}
 
+	public void setCamera(GameCamera camera) {
+		this.camera = camera;
+	}
+
 	@Override
 	public boolean keyDown(int keycode) {
+
 		switch (keycode) {
-		case 87 :
-			if (mario.isJumping < 2) {
-				mario.body.applyForceToCenter(new Vector2(0, 500), true);
-				mario.isJumping++;
-			}
-
-			break;
-		case 65:
-			mario.body.applyLinearImpulse(new Vector2(-2, 0), mario.body.getLocalCenter(), true);
-			if (mario.body.getLinearVelocity().x< -2 ) {
-				mario.body.setLinearVelocity(-2, mario.body.getLinearVelocity().y);
+		case 29:
+			if (!bordeIzq()) {
+				mario.izquierdeando = true;
 			}
 			break;
 
-		case 68:
-			mario.body.applyLinearImpulse(new Vector2(2, 0), mario.body.getLocalCenter(), true);
-			if (mario.body.getLinearVelocity().x>2 ) {
-				mario.body.setLinearVelocity(2, mario.body.getLinearVelocity().y);
-			}
+		case 32:
+			mario.derecheando = true;
 			break;
 
 		default:
@@ -53,13 +48,24 @@ public class Movimiento implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
+		switch (keycode) {
+		case 29:
+			mario.izquierdeando = false;
+			break;
+
+		case 32:
+			mario.derecheando = false;
+			break;
+
+		default:
+			break;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		System.out.println(character);
+
 		switch (character) {
 		case 'w':
 			if (mario.isJumping < 2) {
@@ -68,24 +74,22 @@ public class Movimiento implements InputProcessor {
 				mario.isJumping++;
 			}
 
-			break;
-			
-		case 'a':
-			mario.body.applyLinearImpulse(new Vector2(-2, 0), mario.body.getLocalCenter(), true);
-			if (mario.body.getLinearVelocity().x< -2 ) {
-				mario.body.setLinearVelocity(-2, mario.body.getLinearVelocity().y);
-			}
-			break;
-
-		case 'd':
-			mario.body.applyLinearImpulse(new Vector2(2, 0), mario.body.getLocalCenter(), true);
-			if (mario.body.getLinearVelocity().x>2 ) {
-				mario.body.setLinearVelocity(2, mario.body.getLinearVelocity().y);
-			}
-			break;
-
 		default:
 			break;
+		}
+
+		return false;
+	}
+
+	public boolean bordeIzq() {
+		float margenIzq = (camera.camera.position.x / Constantes.PIXELS_TO_METERS)
+				- ((camera.camera.viewportWidth / Constantes.PIXELS_TO_METERS) / 2);
+		System.out.println("MARIO " + mario.body.getPosition().x);
+		System.out.println("MARGEN " + margenIzq);
+		System.out.println(mario.size.getMetersWidth());
+		margenIzq += mario.size.getMetersWidth() * 2;
+		if (mario.body.getPosition().x < margenIzq) {
+			return true;
 		}
 		return false;
 	}

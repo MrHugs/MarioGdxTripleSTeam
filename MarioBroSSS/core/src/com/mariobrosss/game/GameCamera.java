@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 
+import actores.Mario;
 import utiles.Constantes;
 
 public class GameCamera implements InputProcessor {
@@ -15,6 +16,7 @@ public class GameCamera implements InputProcessor {
 	int screenX;
 	int screenY;
 	boolean move = false;
+	Mario mario;
 
 	public GameCamera(OrthographicCamera camera) {
 		super();
@@ -22,22 +24,35 @@ public class GameCamera implements InputProcessor {
 	}
 
 	public void update() {
-		if (move) {
-			move();
+//		if (move) {
+//			move();
+//		}
+//		System.out.println("VIEWPORT "+(camera.viewportWidth/Constantes.PIXELS_TO_METERS)/2);
+//		System.out.println("MARIO "+mario.body.getPosition().x);
+//		System.out.println("CAMARA "+camera.position.x/Constantes.PIXELS_TO_METERS);
+		if (mario.body.getPosition().x*Constantes.PIXELS_TO_METERS>=camera.position.x) {
+			marioMove();
 		}
 		camera.update();
 	}
 
-	private void move() {
-		float x = (screenX - (Gdx.graphics.getWidth() / 2)) * Gdx.graphics.getDeltaTime();
-		float y = -((screenY - (Gdx.graphics.getHeight() / 2)) * Gdx.graphics.getDeltaTime());
+//	private void move() {
+//		float x = (screenX - (Gdx.graphics.getWidth() / 2)) * Gdx.graphics.getDeltaTime();
+//		float y = -((screenY - (Gdx.graphics.getHeight() / 2)) * Gdx.graphics.getDeltaTime());
+//		y = Constantes.ALLOW_VERTICAL_CAMERA_MOVEMENT ? y : 0;
+//		x *= CAMERA_SPEED_MULTIPLIER;
+//		y *= CAMERA_SPEED_MULTIPLIER;
+//		camera.position.set(camera.position.x + x, camera.position.y + y, camera.position.z);
+//
+//	}
+	private void marioMove() {
+		float x = (mario.getX() - (Gdx.graphics.getWidth() / 2)) * Gdx.graphics.getDeltaTime();
+		float y = -((mario.getY() - (Gdx.graphics.getHeight() / 2)) * Gdx.graphics.getDeltaTime());
 		y = Constantes.ALLOW_VERTICAL_CAMERA_MOVEMENT ? y : 0;
 		x *= CAMERA_SPEED_MULTIPLIER;
 		y *= CAMERA_SPEED_MULTIPLIER;
-		camera.position.set(camera.position.x + x, camera.position.y + y, camera.position.z);
-
+		camera.position.set(mario.body.getPosition().x*Constantes.PIXELS_TO_METERS  , camera.position.y + y, camera.position.z);
 	}
-
 	public Matrix4 combined() {
 		return camera.combined;
 	}
@@ -57,6 +72,10 @@ public class GameCamera implements InputProcessor {
 	public boolean keyTyped(char character) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void setMario(Mario mario) {
+		this.mario = mario;
 	}
 
 	@Override
