@@ -49,16 +49,19 @@ public class MyGame {
 		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 48), world);
 		suelo3 = new Suelo(new MetricVector2(100f, -200f), new MetricSize(90, 60), world);
 		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(20, 30));
+		camera.setMario(mario);
 		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
 		movimiento = new Movimiento(mario);
 		stage.addActor(mario);
 		stage.addActor(bala);
 		Gdx.input.setInputProcessor(camera);
 		world.setContactListener(new ListenerSalto(mario));
+		movimiento.setCamera(camera);
 		Gdx.input.setInputProcessor(movimiento);
 		music.play();
 		music.setLooping(true);
 		music.setVolume(0.9f);
+		mario.setMovimiento(movimiento);
 	}
 
 	public void act() {
