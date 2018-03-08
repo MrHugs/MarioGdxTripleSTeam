@@ -112,5 +112,10 @@ public class Mario extends MyActor {
 	public boolean isColisionable() {
 		return true;
 	}
+	@Override
+	public boolean isDibujable() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 }
