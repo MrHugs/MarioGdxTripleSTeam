@@ -29,8 +29,7 @@ public class MyGame {
 	Movimiento movimiento;
 	Box2DDebugRenderer debugRenderer;
 	Matrix4 debugMatrix;
-	Suelo suelo;
-	Suelo suelo2;
+	Suelo suelo, suelo2, suelo3;
 	Mario mario;
 	Bala bala;
 	InputAdapter prueba;
@@ -48,6 +47,7 @@ public class MyGame {
 				Gdx.graphics.getHeight() / Constantes.FACTOR_ZOOM_CAMERA));
 		suelo = new Suelo(new MetricVector2(-512f, -256f), new MetricSize(2048, 64), world);
 		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 48), world);
+		suelo3 = new Suelo(new MetricVector2(100f, -200f), new MetricSize(90, 60), world);
 		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(20, 30));
 		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
 		movimiento = new Movimiento(mario);
@@ -79,6 +79,7 @@ public class MyGame {
 		mario.draw(batch);
 		suelo.draw(batch);
 		suelo2.draw(batch);
+		suelo3.draw(batch);
 		bala.draw(batch);
 		batch.end();
 		debugRenderer.render(world, debugMatrix);

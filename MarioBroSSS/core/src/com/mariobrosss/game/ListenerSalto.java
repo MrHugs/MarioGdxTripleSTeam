@@ -1,6 +1,5 @@
 package com.mariobrosss.game;
 
-import java.io.Console;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -21,10 +20,11 @@ public class ListenerSalto implements ContactListener {
 		//A veces intentais acceder a elementos que no existen. seguramente porque algún elemento
 		//que puede colisionar no tiene userData
 		if (contact.getFixtureA().getBody().getUserData() != null && contact.getFixtureB().getBody().getUserData()!=null) {
-			System.out.println(contact.getFixtureA().getBody().getUserData().toString());
-			System.out.println(contact.getFixtureB().getBody().getUserData().toString());
 			if (contact.getFixtureA().getBody().getUserData().toString().equals("suelo")) {
-				mario.isJumping = 0;
+				if (contact.getFixtureA().getBody().getPosition().y <=contact.getFixtureB().getBody().getPosition().y) {
+					mario.isJumping = 0;
+				}
+				
 			}
 		}
 	}
