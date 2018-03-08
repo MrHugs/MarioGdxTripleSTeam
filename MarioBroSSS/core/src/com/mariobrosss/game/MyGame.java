@@ -2,6 +2,7 @@ package com.mariobrosss.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -34,6 +35,7 @@ public class MyGame {
 	Bala bala;
 	InputAdapter prueba;
 	Music music;
+	InputMultiplexer multiplexor;
 	boolean pausa = false;
 
 	public MyGame() {
@@ -43,21 +45,35 @@ public class MyGame {
 		batch = new SpriteBatch();
 		debugRenderer = new Box2DDebugRenderer();
 		stage = new Stage();
+		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(20, 30));
 		camera = new GameCamera(new OrthographicCamera(Gdx.graphics.getWidth() / Constantes.FACTOR_ZOOM_CAMERA,
 				Gdx.graphics.getHeight() / Constantes.FACTOR_ZOOM_CAMERA));
+<<<<<<< HEAD
 		suelo = new Suelo(new MetricVector2(-512f, -256f), new MetricSize(2048, 64), world);
 		suelo2 = new Suelo(new MetricVector2(0, 0), new MetricSize(64, 48), world);
 		suelo3 = new Suelo(new MetricVector2(100f, -200f), new MetricSize(90, 60), world);
 		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(20, 30));
 		camera.setMario(mario);
 		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
+=======
+>>>>>>> branch 'master' of https://github.com/MrHugs/MarioGdxTripleSTeam.git
 		movimiento = new Movimiento(mario);
+		suelo = new Suelo(new MetricVector2(1692f, -256f), new MetricSize(2048, 64), world);
+		//suelo2 = new Suelo(new MetricVector2(0f, 0), new MetricSize(64, 48), world);
+		//suelo3 = new Suelo(new MetricVector2(0f, -200f), new MetricSize(90, 60), world);
+		//bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
+		//stage.addActor(bala);
 		stage.addActor(mario);
-		stage.addActor(bala);
-		Gdx.input.setInputProcessor(camera);
+		multiplexor = new InputMultiplexer();
+		multiplexor.addProcessor(0, camera);
+		multiplexor.addProcessor(1, movimiento);
+		Gdx.input.setInputProcessor(multiplexor);
 		world.setContactListener(new ListenerSalto(mario));
+<<<<<<< HEAD
 		movimiento.setCamera(camera);
 		Gdx.input.setInputProcessor(movimiento);
+=======
+>>>>>>> branch 'master' of https://github.com/MrHugs/MarioGdxTripleSTeam.git
 		music.play();
 		music.setLooping(true);
 		music.setVolume(0.9f);
@@ -81,9 +97,9 @@ public class MyGame {
 		batch.begin();
 		mario.draw(batch);
 		suelo.draw(batch);
-		suelo2.draw(batch);
-		suelo3.draw(batch);
-		bala.draw(batch);
+//		suelo2.draw(batch);
+//		suelo3.draw(batch);
+//		bala.draw(batch);
 		batch.end();
 		debugRenderer.render(world, debugMatrix);
 
