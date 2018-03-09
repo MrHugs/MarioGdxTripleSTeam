@@ -118,10 +118,6 @@ public class Mario extends MyActor {
 		return true;
 	}
 
-	@Override
-	public boolean isDibujable() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 }
