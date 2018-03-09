@@ -14,6 +14,7 @@ public class Movimiento implements InputProcessor {
 	Mario mario;
 	Sound sound = Gdx.audio.newSound(Gdx.files.internal("marioSaltoFixed.mp3"));
 	GameCamera camera;
+	
 
 	public Movimiento(Mario mario) {
 		super();
@@ -69,9 +70,9 @@ public class Movimiento implements InputProcessor {
 		switch (character) {
 		case 'w':
 			if (mario.isJumping < 2) {
-				mario.body.applyForceToCenter(new Vector2(0, 500), true);
+				mario.body.applyForceToCenter(new Vector2(0, 100), true);
 				sound.play();
-				mario.isJumping++;
+				//mario.isJumping++;
 			}
 
 		default:
@@ -84,9 +85,6 @@ public class Movimiento implements InputProcessor {
 	public boolean bordeIzq() {
 		float margenIzq = (camera.camera.position.x / Constantes.PIXELS_TO_METERS)
 				- ((camera.camera.viewportWidth / Constantes.PIXELS_TO_METERS) / 2);
-		System.out.println("MARIO " + mario.body.getPosition().x);
-		System.out.println("MARGEN " + margenIzq);
-		System.out.println(mario.size.getMetersWidth());
 		margenIzq += mario.size.getMetersWidth() * 2;
 		if (mario.body.getPosition().x < margenIzq) {
 			return true;

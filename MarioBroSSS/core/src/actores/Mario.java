@@ -79,7 +79,6 @@ public class Mario extends MyActor {
 //		System.out.println(derecheando +" DERECHEANDO");
 //		System.out.println(izquierdeando+ " IZQUIERDEANDO");
 		updateSpritePosition();
-		System.out.println(movimiento.bordeIzq());
 		if (!derecheando&&!izquierdeando||(izquierdeando&&derecheando)||movimiento.bordeIzq()) {
 			body.setLinearVelocity(0f, body.getLinearVelocity().y);
 			if (movimiento.bordeIzq()) {

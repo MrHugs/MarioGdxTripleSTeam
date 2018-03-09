@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -16,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+
 import actores.Bala;
 import actores.Mario;
 import actores.Suelo;
@@ -23,7 +23,7 @@ import utiles.Constantes;
 import utiles.MetricSize;
 import utiles.MetricVector2;
 
-public class MyGame {
+public class MyGame  {
 
 	private static final float FactorZoomCamera = 1;
 	
@@ -50,6 +50,7 @@ public class MyGame {
 
 	public MyGame() {
 		super();
+		
 		world = new World(new Vector2(Constantes.GRAVEDAD_X, Constantes.GRAVEDAD_Y), true);
 		maploader = new TmxMapLoader();
 		map  = maploader.load("level1.tmx");
@@ -60,15 +61,17 @@ public class MyGame {
 		batch = new SpriteBatch();
 		debugRenderer = new Box2DDebugRenderer();
 		stage = new Stage();
-		mario = new Mario(new MetricVector2(50, 200), world, new MetricSize(10, 16));
-		camera = new GameCamera(new OrthographicCamera(Gdx.graphics.getWidth() / Constantes.FACTOR_ZOOM_CAMERA,
-				Gdx.graphics.getHeight() / Constantes.FACTOR_ZOOM_CAMERA));
+		mario = new Mario(new MetricVector2(100, 200), world, new MetricSize(10, 16));
+		camera = new GameCamera();
+		
+		
+		
 		movimiento = new Movimiento(mario);
 //		suelo = new Suelo(new MetricVector2(1692f, -256f), new MetricSize(2048, 64), world);
 //		suelo2 = new Suelo(new MetricVector2(0f, 0), new MetricSize(64, 48), world);
 //		suelo2 = new Suelo(new MetricVector2(512f, 120f), new MetricSize(64, 48), world);
 		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
-//		stage.addActor(bala);
+		stage.addActor(bala);
 		stage.addActor(mario);
 		multiplexor = new InputMultiplexer();
 		multiplexor.addProcessor(0, camera);
@@ -81,7 +84,7 @@ public class MyGame {
 		music.setLooping(true);
 		music.setVolume(0.9f);
 		mario.setMovimiento(movimiento);
-		camera.camera.position.set(stage.getViewport().getScreenWidth()/2, stage.getViewport().getWorldHeight()/2,camera.camera.position.z);
+		//camera.camera.position.set(stage.getViewport().getScreenWidth()/2, stage.getViewport().getWorldHeight()/4.2f,camera.camera.position.z);
 
 	}
 
@@ -96,6 +99,8 @@ public class MyGame {
 		this.act();
 		stage.act();
 		renderer.setView(camera.camera);
+		
+		camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
 		batch.setProjectionMatrix(camera.combined());
 		debugMatrix = batch.getProjectionMatrix().cpy().scale(Constantes.PIXELS_TO_METERS, Constantes.PIXELS_TO_METERS,
