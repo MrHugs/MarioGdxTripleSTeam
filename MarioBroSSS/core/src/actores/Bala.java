@@ -82,4 +82,10 @@ public class Bala extends MyActor {
 		this.defineTextureRegion(new MetricVector2(body.getPosition().x, body.getPosition().y));
 	}
 
+	@Override
+	public boolean isDibujable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

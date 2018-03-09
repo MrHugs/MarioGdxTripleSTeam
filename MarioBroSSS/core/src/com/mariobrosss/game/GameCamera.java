@@ -10,7 +10,7 @@ import utiles.Constantes;
 
 public class GameCamera implements InputProcessor {
 
-	OrthographicCamera camera;
+	public OrthographicCamera camera;
 	private final int CAMERA_SPEED_MULTIPLIER = 2;
 	int screenX;
 	int screenY;

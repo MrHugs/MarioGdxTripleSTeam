@@ -6,6 +6,9 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -22,6 +25,10 @@ import utiles.MetricVector2;
 public class MyGame {
 
 	private static final float FactorZoomCamera = 1;
+	
+	private TmxMapLoader maploader;
+	private TiledMap map;
+	private OrthogonalTiledMapRenderer renderer;
 	World world;
 	Stage stage;
 	SpriteBatch batch;
@@ -40,6 +47,9 @@ public class MyGame {
 
 	public MyGame() {
 		super();
+		maploader = new TmxMapLoader();
+		map  = maploader.load("level1.tmx");
+		renderer = new OrthogonalTiledMapRenderer(map);
 		music = Gdx.audio.newMusic(Gdx.files.internal("marioTheme.mp3"));
 		world = new World(new Vector2(Constantes.GRAVEDAD_X, Constantes.GRAVEDAD_Y), true);
 		batch = new SpriteBatch();

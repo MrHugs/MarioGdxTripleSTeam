@@ -39,8 +39,6 @@ public abstract class SpritableActor extends MyActor implements Dibujable {
 
 	protected abstract void configureBodyDef();
 
-	protected abstract void configureSprite();
-
 	protected abstract void configureFixtureDef();
 
 	protected abstract Shape createShape();
@@ -49,7 +47,7 @@ public abstract class SpritableActor extends MyActor implements Dibujable {
 
 	protected abstract Sprite createSprite();
 
-	protected abstract void defineSprite();
+	protected abstract void configureSprite();
 
 	public void draw(Batch batch) {
 		sprite.draw(batch);
