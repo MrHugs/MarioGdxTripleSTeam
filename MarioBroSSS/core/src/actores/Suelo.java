@@ -73,6 +73,10 @@ public class Suelo extends Actor implements Elemento {
 	@Override
 	public boolean isDibujable() {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		return false;
+=======
+		return true;
+>>>>>>> 210e5b4ca3debe830551549c93dd8c4004bc563f
 	}
 }
