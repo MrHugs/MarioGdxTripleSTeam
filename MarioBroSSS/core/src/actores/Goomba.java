@@ -99,6 +99,7 @@ public class Goomba extends MyActor{
 		sprite.setPosition(x, y);
 		sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
 	}
+}
 
 	
 	
@@ -106,4 +107,3 @@ public class Goomba extends MyActor{
 	
 	
 	
-}

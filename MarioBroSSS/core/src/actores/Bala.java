@@ -84,7 +84,6 @@ public class Bala extends MyActor {
 
 	@Override
 	public boolean isDibujable() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

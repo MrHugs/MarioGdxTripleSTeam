@@ -23,7 +23,7 @@ public class Suelo extends Actor implements Elemento {
 
 	Body body;
 	Texture texture;
-	private TextureRegion textureRegion; 
+	private TextureRegion textureRegion;
 	MetricSize size;
 
 	public Suelo(MetricVector2 position, MetricSize size, World world) {
@@ -37,7 +37,7 @@ public class Suelo extends Actor implements Elemento {
 		shape.setAsBox(size.getMetersWidth(), size.getMetersHeight());
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
-		fixture.density=1f;
+		fixture.density = 1f;
 		body.createFixture(fixture);
 		body.setUserData("suelo");
 		texture = new Texture(Gdx.files.internal("GroundBrick.png"));

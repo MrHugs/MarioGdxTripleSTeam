@@ -3,24 +3,48 @@ package com.mariobrosss.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import actores.Mario;
 import utiles.Constantes;
 
-public class GameCamera implements InputProcessor {
+public class GameCamera implements InputProcessor, Screen {
 
-	OrthographicCamera camera;
+
+	public OrthographicCamera camera;
 	private final int CAMERA_SPEED_MULTIPLIER = 2;
 	int screenX;
 	int screenY;
 	boolean move = false;
 	Mario mario;
+	FitViewport myViewPort;
+	
+
 
 	public GameCamera(OrthographicCamera camera) {
 		super();
 		this.camera = camera;
+	}
+
+	public GameCamera() {
+		this.camera= new OrthographicCamera();
+		float x,y;
+		y=210;
+		x=y*(16f/9f);
+		System.out.println("X:"+ x);
+		System.out.println("Y:"+ y);
+
+		this.myViewPort = new FitViewport(x,y,camera);
+		this.camera.position.set(myViewPort.getWorldWidth()/2,myViewPort.getWorldHeight()/2,camera.position.z);
+
+	}
+	
+
+	public OrthographicCamera getCamera() {
+		return camera;
 	}
 
 	public void update() {
@@ -117,6 +141,46 @@ public class GameCamera implements InputProcessor {
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void render(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		myViewPort.update(width, height);
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -14,6 +14,7 @@ public class Movimiento implements InputProcessor {
 	Mario mario;
 	Sound sound = Gdx.audio.newSound(Gdx.files.internal("marioSaltoFixed.mp3"));
 	GameCamera camera;
+	
 
 	public Movimiento(Mario mario) {
 		super();
@@ -69,9 +70,9 @@ public class Movimiento implements InputProcessor {
 		switch (character) {
 		case 'w':
 			if (mario.isJumping < 2) {
-				mario.body.applyForceToCenter(new Vector2(0, 500), true);
+				mario.body.applyForceToCenter(new Vector2(0, 100), true);
 				sound.play();
-				mario.isJumping++;
+				//mario.isJumping++;
 			}
 
 		default:
