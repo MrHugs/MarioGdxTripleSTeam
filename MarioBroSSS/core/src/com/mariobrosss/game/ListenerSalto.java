@@ -19,6 +19,8 @@ public class ListenerSalto implements ContactListener {
 	public void beginContact(Contact contact) {
 		//A veces intentais acceder a elementos que no existen. seguramente porque algún elemento
 		//que puede colisionar no tiene userData
+		System.out.println("SOY LA A"+contact.getFixtureA().getBody().getUserData());
+		System.out.println("SOY LA B"+contact.getFixtureB().getBody().getUserData());
 		if (contact.getFixtureB().getBody().getUserData() != null && contact.getFixtureA().getBody().getUserData()!=null) {
 			if (contact.getFixtureB().getBody().getUserData().toString().equals("suelo")) {
 				if (contact.getFixtureB().getBody().getPosition().y <=contact.getFixtureA().getBody().getPosition().y) {
