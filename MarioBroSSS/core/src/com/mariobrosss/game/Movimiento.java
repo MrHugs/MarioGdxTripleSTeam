@@ -84,9 +84,6 @@ public class Movimiento implements InputProcessor {
 	public boolean bordeIzq() {
 		float margenIzq = (camera.camera.position.x / Constantes.PIXELS_TO_METERS)
 				- ((camera.camera.viewportWidth / Constantes.PIXELS_TO_METERS) / 2);
-		System.out.println("MARIO " + mario.body.getPosition().x);
-		System.out.println("MARGEN " + margenIzq);
-		System.out.println(mario.size.getMetersWidth());
 		margenIzq += mario.size.getMetersWidth() * 2;
 		if (mario.body.getPosition().x < margenIzq) {
 			return true;

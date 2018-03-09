@@ -51,7 +51,7 @@ public class MyGame {
 		movimiento = new Movimiento(mario);
 		suelo = new Suelo(new MetricVector2(1692f, -256f), new MetricSize(2048, 64), world);
 		suelo2 = new Suelo(new MetricVector2(0f, 0), new MetricSize(64, 48), world);
-		suelo2 = new Suelo(new MetricVector2(512f, 120f), new MetricSize(64, 48), world);
+		suelo3 = new Suelo(new MetricVector2(48f, -90f), new MetricSize(16, 100), world);
 		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
 		stage.addActor(bala);
 		stage.addActor(mario);

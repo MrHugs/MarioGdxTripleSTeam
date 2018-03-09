@@ -23,8 +23,6 @@ public class ListenerSalto implements ContactListener {
 			if (contact.getFixtureB().getBody().getUserData().toString().equals("suelo")) {
 				if (contact.getFixtureB().getBody().getPosition().y <=contact.getFixtureA().getBody().getPosition().y) {
 					mario.isJumping = 0;
-					System.out.println("SOY LA A"+contact.getFixtureA().getBody().getUserData());
-					System.out.println("SOY LA B"+contact.getFixtureB().getBody().getUserData());
 
 				}
 				
