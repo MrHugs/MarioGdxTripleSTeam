@@ -9,6 +9,7 @@ public class Constantes {
 	public final static float VELOCIDAD_JUGADOR = 0.5f;
 	public final static boolean START_WITH_DEBUG = true;
 	public final static boolean ALLOW_VERTICAL_CAMERA_MOVEMENT = false;
+	public final static short SUELO = 0x0001;
 	public final static short ENEMIGO = 0x0002;
 	public final static short MARIO = 0x0004;
 

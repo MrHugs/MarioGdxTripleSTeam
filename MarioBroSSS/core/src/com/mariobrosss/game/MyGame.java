@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 
 import actores.Bala;
+import actores.Goomba;
 import actores.Mario;
 import actores.Suelo;
 import utiles.Constantes;
@@ -42,6 +43,7 @@ public class MyGame  {
 	Suelo suelo, suelo2, suelo3;
 	Mario mario;
 	Bala bala;
+	Goomba goomba;
 	InputAdapter prueba;
 	Music music;
 	InputMultiplexer multiplexor;
@@ -61,17 +63,16 @@ public class MyGame  {
 		batch = new SpriteBatch();
 		debugRenderer = new Box2DDebugRenderer();
 		stage = new Stage();
-		mario = new Mario(new MetricVector2(100, 200), world, new MetricSize(10, 16));
+		mario = new Mario(new MetricVector2(100, 20), world, new MetricSize(10, 16));
 		camera = new GameCamera();
-		
-		
-		
 		movimiento = new Movimiento(mario);
 //		suelo = new Suelo(new MetricVector2(1692f, -256f), new MetricSize(2048, 64), world);
 //		suelo2 = new Suelo(new MetricVector2(0f, 0), new MetricSize(64, 48), world);
 //		suelo2 = new Suelo(new MetricVector2(512f, 120f), new MetricSize(64, 48), world);
-		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
-		stage.addActor(bala);
+//		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
+		goomba = new Goomba(new MetricVector2(50, 20), world, new MetricSize(10, 10));
+		stage.addActor(goomba);
+//		stage.addActor(bala);
 		stage.addActor(mario);
 		multiplexor = new InputMultiplexer();
 		multiplexor.addProcessor(0, camera);
@@ -108,10 +109,11 @@ public class MyGame  {
 		renderer.render();
 		batch.begin();
 		mario.draw(batch);
+		goomba.draw(batch);
 //		suelo.draw(batch);
 //		suelo2.draw(batch);
 //		suelo3.draw(batch);
-		bala.draw(batch);
+//		bala.draw(batch);
 		batch.end();
 		debugRenderer.render(world, debugMatrix);
 

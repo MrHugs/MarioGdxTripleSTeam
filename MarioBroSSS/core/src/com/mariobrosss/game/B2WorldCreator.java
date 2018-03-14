@@ -26,12 +26,11 @@ public class B2WorldCreator {
 		this.recorrerLayers(map, world, 2, bdef, body, shape, fdef);
 		// Spikes
 		this.recorrerLayers(map, world, 3, bdef, body, shape, fdef);
-
+//		this.recorrerLayers(map, world, 4, bdef, body, shape, fdef);
 	}
 
 	public void recorrerLayers(Map map, World world, int layer, BodyDef bdef, Body body, PolygonShape shape,
 			FixtureDef fdef) {
-
 		for (MapObject object : map.getLayers().get(layer).getObjects().getByType(RectangleMapObject.class)) {
 			
 			Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -42,6 +41,9 @@ public class B2WorldCreator {
 			shape.setAsBox(rect.getWidth() / 2 / Constantes.PIXELS_TO_METERS, rect.getHeight() / 2 / Constantes.PIXELS_TO_METERS);
 			fdef.shape = shape;
 			body.createFixture(fdef);
+//			fdef.filter.categoryBits = Constantes.SUELO;
+//			fdef.filter.maskBits = Constantes.MARIO | Constantes.ENEMIGO;
+//			
 		}
 	}
 

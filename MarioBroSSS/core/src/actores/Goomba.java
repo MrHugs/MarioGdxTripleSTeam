@@ -1,7 +1,10 @@
 package actores;
 
+import javax.security.auth.x500.X500Principal;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -27,8 +30,6 @@ public class Goomba extends MyActor{
 	public MetricSize size;
 	public int isJumping = 0;
 	public boolean izquierdeando = false;
-	Movimiento movimiento;
-
 	public Goomba(MetricVector2 position, World world, MetricSize size) {
 		super();
 		this.size = size;
@@ -41,10 +42,12 @@ public class Goomba extends MyActor{
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
 		fixture.density = 7f;
-		fixture.friction = 1f;
+		fixture.friction = 0f;
 		body.createFixture(fixture);
-		body.setUserData("mario");
+		body.setUserData("enemigo");
 		body.setFixedRotation(true);
+//		fixture.filter.categoryBits= Constantes.ENEMIGO;
+//		fixture.filter.maskBits = Constantes.MARIO;
 		sprite = defineSprite();
 		shape.dispose();
 	}
@@ -61,16 +64,20 @@ public class Goomba extends MyActor{
 	public void act(float delta) {
 		super.act(delta);
 		updateSpritePosition();
+		
 		if (body.getLinearVelocity().x>2f) {
-			body.setLinearVelocity(3f, body.getLinearVelocity().y);
+			body.setLinearVelocity(0.03f, body.getLinearVelocity().y);
 		}
 		if (body.getLinearVelocity().x<-2f) {
-			body.setLinearVelocity(-3f, body.getLinearVelocity().y);
+			body.setLinearVelocity(-0.03f, body.getLinearVelocity().y);
 		}
 		if (izquierdeando) {
-			body.applyLinearImpulse(new Vector2(-0.1f, 0), body.getLocalCenter(), true);
+			body.applyLinearImpulse(new Vector2(-0.01f, 0), body.getLocalCenter(), true);
 		}else {
-			body.applyLinearImpulse(new Vector2(0.1f, 0), body.getLocalCenter(), true);
+			body.applyLinearImpulse(new Vector2(0.01f, 0), body.getLocalCenter(), true);
+		}
+		if (body.getLinearVelocity().x==0) {
+			izquierdeando= !izquierdeando;
 		}
 	}
 	@Override
@@ -90,7 +97,11 @@ public class Goomba extends MyActor{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+	public void draw(Batch batch) {
+		super.draw(batch, 1);
+		sprite.draw(batch);
+
+	}
 	
 	private void updateSpritePosition() {
 		float x, y;

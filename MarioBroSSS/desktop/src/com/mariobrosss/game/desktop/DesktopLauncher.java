@@ -15,8 +15,6 @@ public class DesktopLauncher {
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight();
 		
-		System.out.println(width);
-		System.out.println(height);
 
 		
 		config.width=(int) width;

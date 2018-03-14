@@ -69,12 +69,11 @@ public class Movimiento implements InputProcessor {
 
 		switch (character) {
 		case 'w':
-			if (mario.isJumping < 2) {
-				mario.body.applyForceToCenter(new Vector2(0, 100), true);
+			if (!mario.isJumping()) {
+				mario.body.applyForceToCenter(new Vector2(0, 115), true);
 				sound.play();
-				//mario.isJumping++;
+				mario.setJumping(true);
 			}
-
 		default:
 			break;
 		}

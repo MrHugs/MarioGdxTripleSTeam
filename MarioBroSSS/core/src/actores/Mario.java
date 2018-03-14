@@ -1,5 +1,8 @@
 package actores;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -21,14 +24,17 @@ import utiles.MetricVector2;
 
 public class Mario extends MyActor {
 	final byte MAX_VIDA = 2;
-	byte vida = 1;
+	byte vida = MAX_VIDA;
 	public Body body;
 	FixtureDef fixtura;
 	Sprite sprite;
 	private TextureRegion textureRegion;
 	Texture texture;
 	public MetricSize size;
-	public int isJumping = 0;
+	boolean damaged = false;
+	int secDamage;
+	int finalDamage;
+	public boolean isJumping = false;
 	public boolean izquierdeando, derecheando = false;
 	Movimiento movimiento;
 	public Mario(MetricVector2 position, World world, MetricSize size) {
@@ -48,20 +54,41 @@ public class Mario extends MyActor {
 		body.setUserData("mario");
 		body.setFixedRotation(true);
 		sprite = defineSprite();
+//		fixture.filter.categoryBits = Constantes.MARIO;
+//		fixture.filter.maskBits = Constantes.ENEMIGO| Constantes.SUELO;
 		shape.dispose();
 	}
 	public void setMovimiento(Movimiento movimiento) {
 		this.movimiento = movimiento;
 	}
 	private Sprite defineSprite() {
-		Sprite sprite = new Sprite(new Texture(Gdx.files.internal("mariobros.png")));
+		sprite = new Sprite(new Texture(Gdx.files.internal("mariobros.png")));
 		sprite.setBounds(body.getPosition().x * Constantes.PIXELS_TO_METERS - sprite.getWidth() / 2,
 				body.getPosition().y * Constantes.PIXELS_TO_METERS - sprite.getHeight() / 2, size.getPixelsWidth() * 2,
 				size.getPixelsHeight() * 2);
 		sprite.setOriginCenter();
 		return sprite;
 	}
-
+	public void invulnerable() {
+		this.sprite.setTexture(new Texture(Gdx.files.internal("goldmario.png")));
+	}
+	public void normal() {
+		this.sprite.setTexture(new Texture(Gdx.files.internal("mariobros.png")));
+	}
+	public void quitaVida(){
+		if (!damaged) {
+			this.vida--;
+			this.damaged = true;
+			this.secDamage=LocalDateTime.now().getSecond();
+			if (this.secDamage == 60) {
+				this.finalDamage = 58;
+			}else {
+				this.finalDamage = 2;
+			}
+			this.invulnerable();
+		}
+		
+	}
 	public void colisiona() {
 		// TODO Auto-generated method stub
 
@@ -72,12 +99,29 @@ public class Mario extends MyActor {
 		sprite.draw(batch);
 
 	}
-
+	public void setJumping(boolean isJumping) {
+		this.isJumping = isJumping;
+	}
+	public boolean isJumping() {
+		return isJumping;
+	}
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+		if (vida==0) {
+			System.out.println("HE PERDIDO");
+		}
+		if (damaged) {
+			if (Math.abs(LocalDateTime.now().getSecond()-this.secDamage)== this.finalDamage) {
+				this.damaged = false;
+				this.normal();
+			}
+		}
 //		System.out.println(derecheando +" DERECHEANDO");
 //		System.out.println(izquierdeando+ " IZQUIERDEANDO");
+		if (body.getLinearVelocity().y==0) {
+			setJumping(false);
+		}
 		updateSpritePosition();
 		if (!derecheando&&!izquierdeando||(izquierdeando&&derecheando)||movimiento.bordeIzq()) {
 			body.setLinearVelocity(0f, body.getLinearVelocity().y);
@@ -91,11 +135,11 @@ public class Mario extends MyActor {
 		if (body.getLinearVelocity().x<-2f) {
 			body.setLinearVelocity(-3f, body.getLinearVelocity().y);
 		}
-		if (derecheando) {
-			body.applyLinearImpulse(new Vector2(0.1f, 0), body.getLocalCenter(), true);
+		if (derecheando&&body.getLinearVelocity().x<=2) {
+			body.applyLinearImpulse(new Vector2(0.1f, 0), body.getWorldCenter(), true);
 		}
 		if (izquierdeando) {
-			body.applyLinearImpulse(new Vector2(-0.1f, 0), body.getLocalCenter(), true);
+			body.applyLinearImpulse(new Vector2(-0.1f, 0), body.getWorldCenter(), true);
 		}
 	}
 

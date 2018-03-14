@@ -41,6 +41,7 @@ public class Bala extends MyActor {
 		fixture.shape = shape;
 		fixture.density = 7f;
 		fixture.friction = 1f;
+		body.setUserData("enemigo");
 		texture = new Texture(loader.getImagePath("Name"));
 		textureRegion = new TextureRegion(texture);
 		// Esto cambiado porque en el archivo json se llama "Name"
