@@ -70,8 +70,8 @@ public class MyGame  {
 //		suelo = new Suelo(new MetricVector2(1692f, -256f), new MetricSize(2048, 64), world);
 //		suelo2 = new Suelo(new MetricVector2(0f, 0), new MetricSize(64, 48), world);
 //		suelo2 = new Suelo(new MetricVector2(512f, 120f), new MetricSize(64, 48), world);
-		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
-		stage.addActor(bala);
+//		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
+//		stage.addActor(bala);
 		stage.addActor(mario);
 		multiplexor = new InputMultiplexer();
 		multiplexor.addProcessor(0, camera);
@@ -111,7 +111,7 @@ public class MyGame  {
 //		suelo.draw(batch);
 //		suelo2.draw(batch);
 //		suelo3.draw(batch);
-		bala.draw(batch);
+//		bala.draw(batch);
 		batch.end();
 		debugRenderer.render(world, debugMatrix);
 

@@ -26,6 +26,7 @@ public class B2WorldCreator {
 		this.recorrerLayers(map, world, 2, bdef, body, shape, fdef);
 		// Spikes
 		this.recorrerLayers(map, world, 3, bdef, body, shape, fdef);
+	
 
 	}
 
