@@ -67,16 +67,10 @@ public class MyGame  {
 		
 		
 		movimiento = new Movimiento(mario);
-//		suelo = new Suelo(new MetricVector2(1692f, -256f), new MetricSize(2048, 64), world);
-//		suelo2 = new Suelo(new MetricVector2(0f, 0), new MetricSize(64, 48), world);
-//		suelo2 = new Suelo(new MetricVector2(512f, 120f), new MetricSize(64, 48), world);
-<<<<<<< HEAD
-//		bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
-//		stage.addActor(bala);
-=======
+
+//		
 		bala = new Bala(new MetricVector2(200, 100), world, new MetricSize(40, 30));
 		stage.addActor(bala);
->>>>>>> b43c10a2beabf5be1ccc254e46b702dc3f4f8d34
 		stage.addActor(mario);
 		multiplexor = new InputMultiplexer();
 		multiplexor.addProcessor(0, camera);
