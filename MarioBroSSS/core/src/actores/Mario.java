@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import utiles.CollisionBits;
 import utiles.Constantes;
 import utiles.MetricSize;
 import utiles.MetricVector2;
@@ -31,6 +32,7 @@ public class Mario extends MyActor {
 	public int isJumping = 0;
 	public boolean izquierdeando, derecheando = false;
 	Movimiento movimiento;
+
 	public Mario(MetricVector2 position, World world, MetricSize size) {
 		super();
 		this.size = size;
@@ -44,15 +46,19 @@ public class Mario extends MyActor {
 		fixture.shape = shape;
 		fixture.density = 7f;
 		fixture.friction = 1f;
+		fixture.filter.categoryBits = CollisionBits.mario.getCategoryBits();
+		fixture.filter.maskBits = -1;
 		body.createFixture(fixture);
 		body.setUserData("mario");
 		body.setFixedRotation(true);
 		sprite = defineSprite();
 		shape.dispose();
 	}
+
 	public void setMovimiento(Movimiento movimiento) {
 		this.movimiento = movimiento;
 	}
+
 	private Sprite defineSprite() {
 		Sprite sprite = new Sprite(new Texture(Gdx.files.internal("mariobros.png")));
 		sprite.setBounds(body.getPosition().x * Constantes.PIXELS_TO_METERS - sprite.getWidth() / 2,
@@ -76,19 +82,19 @@ public class Mario extends MyActor {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-//		System.out.println(derecheando +" DERECHEANDO");
-//		System.out.println(izquierdeando+ " IZQUIERDEANDO");
+		// System.out.println(derecheando +" DERECHEANDO");
+		// System.out.println(izquierdeando+ " IZQUIERDEANDO");
 		updateSpritePosition();
-		if (!derecheando&&!izquierdeando||(izquierdeando&&derecheando)||movimiento.bordeIzq()) {
+		if (!derecheando && !izquierdeando || (izquierdeando && derecheando) || movimiento.bordeIzq()) {
 			body.setLinearVelocity(0f, body.getLinearVelocity().y);
 			if (movimiento.bordeIzq()) {
 				body.applyLinearImpulse(new Vector2(0.1f, 0), body.getLocalCenter(), true);
 			}
 		}
-		if (body.getLinearVelocity().x>2f) {
+		if (body.getLinearVelocity().x > 2f) {
 			body.setLinearVelocity(3f, body.getLinearVelocity().y);
 		}
-		if (body.getLinearVelocity().x<-2f) {
+		if (body.getLinearVelocity().x < -2f) {
 			body.setLinearVelocity(-3f, body.getLinearVelocity().y);
 		}
 		if (derecheando) {
@@ -111,12 +117,11 @@ public class Mario extends MyActor {
 	public boolean isColisionable() {
 		return true;
 	}
+
 	@Override
 	public boolean isDibujable() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
-	
 
 }
