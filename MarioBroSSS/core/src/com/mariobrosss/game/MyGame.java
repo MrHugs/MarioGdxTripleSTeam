@@ -64,6 +64,7 @@ public class MyGame  {
 		debugRenderer = new Box2DDebugRenderer();
 		stage = new Stage();
 		mario = new Mario(new MetricVector2(100, 20), world, new MetricSize(10, 16));
+		mario = new Mario(new MetricVector2(100, 100), world, new MetricSize(10, 16));
 		camera = new GameCamera();
 		movimiento = new Movimiento(mario);
 //		suelo = new Suelo(new MetricVector2(1692f, -256f), new MetricSize(2048, 64), world);
@@ -73,12 +74,15 @@ public class MyGame  {
 		goomba = new Goomba(new MetricVector2(50, 20), world, new MetricSize(10, 10));
 		stage.addActor(goomba);
 //		stage.addActor(bala);
+		bala = new Bala(new MetricVector2(200, 100), world, new MetricSize(40, 30));
+		stage.addActor(bala);
 		stage.addActor(mario);
 		multiplexor = new InputMultiplexer();
 		multiplexor.addProcessor(0, camera);
 		multiplexor.addProcessor(1, movimiento);
 		Gdx.input.setInputProcessor(multiplexor);
 		world.setContactListener(new ListenerSalto(mario));
+		world.setContactListener(new ListenerBalaDrop(mario, bala));
 		movimiento.setCamera(camera);
 		camera.setMario(mario);
 		music.play();
@@ -93,14 +97,16 @@ public class MyGame  {
 		if (!pausa) {
 			world.step(1f / 60f, 6, 2);
 			stage.act();
+			if (bala.isSetForDrop()) {
+				bala.drop();
+			}
 		}
 	}
 
 	public void render() {
 		this.act();
-		stage.act();
+//		stage.act();
 		renderer.setView(camera.camera);
-		
 		camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
 		batch.setProjectionMatrix(camera.combined());

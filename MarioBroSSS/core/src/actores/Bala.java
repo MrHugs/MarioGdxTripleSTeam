@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import utiles.BodyEditorLoader;
+import utiles.CollisionBits;
 import utiles.Constantes;
 import utiles.MetricSize;
 import utiles.MetricVector2;
@@ -28,6 +29,7 @@ public class Bala extends MyActor {
 	MetricSize size;
 	BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("balaChachipi.json"));
 	Vector2 origin;
+	boolean setForDrop = false;
 
 	public Bala(MetricVector2 position, World world, MetricSize size) {
 		super();
@@ -36,12 +38,14 @@ public class Bala extends MyActor {
 		bodydef.type = BodyType.KinematicBody;
 		bodydef.position.set(position.getMetersX(), position.getMetersY());
 		body = world.createBody(bodydef);
+		body.setUserData("bala");
 		PolygonShape shape = new PolygonShape();
 		fixture = new FixtureDef();
 		fixture.shape = shape;
 		fixture.density = 7f;
 		fixture.friction = 1f;
-		body.setUserData("enemigo");
+		fixture.filter.categoryBits = CollisionBits.bala.getCategoryBits();
+		fixture.filter.maskBits = CollisionBits.mario.getCategoryBits();
 		texture = new Texture(loader.getImagePath("Name"));
 		textureRegion = new TextureRegion(texture);
 		// Esto cambiado porque en el archivo json se llama "Name"
@@ -76,6 +80,15 @@ public class Bala extends MyActor {
 		textureRegion.setRegionWidth((int) (size.getPixelsWidth() * 2));
 		textureRegion.setRegionHeight((int) (size.getPixelsHeight() * 2));
 	}
+	
+	public void setForDrop() {
+		this.setForDrop = true;
+	}
+	
+	public void drop() {
+		body.setType(BodyType.DynamicBody);
+		body.getFixtureList().get(0).getFilterData().maskBits=0;
+	}
 
 	@Override
 	public void act(float delta) {
@@ -86,6 +99,10 @@ public class Bala extends MyActor {
 	@Override
 	public boolean isDibujable() {
 		return true;
+	}
+
+	public boolean isSetForDrop() {
+		return setForDrop;
 	}
 
 }

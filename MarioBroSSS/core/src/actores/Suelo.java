@@ -38,6 +38,7 @@ public class Suelo extends Actor implements Elemento {
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
 		fixture.density = 1f;
+		fixture.filter.maskBits = -1;
 		body.createFixture(fixture);
 		body.setUserData("suelo");
 		texture = new Texture(Gdx.files.internal("GroundBrick.png"));
