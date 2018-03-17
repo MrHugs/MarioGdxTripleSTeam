@@ -5,18 +5,20 @@ import java.time.LocalDateTime;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.mariobrosss.game.Movimiento;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mariobrosss.game.Movimiento;
 
 import utiles.CollisionBits;
 import utiles.Constantes;
@@ -25,7 +27,8 @@ import utiles.MetricVector2;
 
 public class Mario extends MyActor {
 	final byte MAX_VIDA = 2;
-	byte vida = MAX_VIDA;
+	private float elapsedTime=0;
+	byte vida = 1;
 	public Body body;
 	FixtureDef fixtura;
 	Sprite sprite;
@@ -38,10 +41,20 @@ public class Mario extends MyActor {
 	public boolean isJumping = false;
 	public boolean izquierdeando, derecheando = false;
 	Movimiento movimiento;
+	private TextureAtlas atlas;
+	private TextureRegion regionMario;
+	Animation animation;
 
 	public Mario(MetricVector2 position, World world, MetricSize size) {
 		super();
+		textureRegion = new TextureRegion();
+		atlas = new TextureAtlas(Gdx.files.internal("Mario_and_Enemies.pack"));
+		regionMario = new TextureRegion(atlas.findRegion("little_mario"),0,0,16,16);
+		setBounds(0, 0, 16/utiles.Constantes.PIXELS_TO_METERS,  16/utiles.Constantes.PIXELS_TO_METERS);
+		textureRegion.setRegion(regionMario);
 		this.size = size;
+		animation=new Animation(1/15f, atlas.findRegion("little_mario"));
+
 		BodyDef bodydef = new BodyDef();
 		bodydef.type = BodyType.DynamicBody;
 		bodydef.position.set(position.getMetersX(), position.getMetersY());
@@ -66,6 +79,8 @@ public class Mario extends MyActor {
 	public void setMovimiento(Movimiento movimiento) {
 		this.movimiento = movimiento;
 	}
+
+	
 
 	private Sprite defineSprite() {
 		sprite = new Sprite(new Texture(Gdx.files.internal("mariobros.png")));
@@ -102,7 +117,10 @@ public class Mario extends MyActor {
 
 	public void draw(Batch batch) {
 		super.draw(batch, 1);
-		sprite.draw(batch);
+		//sprite.draw(batch);
+		elapsedTime += Gdx.graphics.getDeltaTime();
+		batch.draw((TextureRegion)animation.getKeyFrame(elapsedTime, true), 0, 0);
+
 
 	}
 	public void setJumping(boolean isJumping) {
@@ -128,7 +146,6 @@ public class Mario extends MyActor {
 		if (body.getLinearVelocity().y==0) {
 			setJumping(false);
 		}
-		updateSpritePosition();
 		if (!derecheando && !izquierdeando || (izquierdeando && derecheando) || movimiento.bordeIzq()) {
 			body.setLinearVelocity(0f, body.getLinearVelocity().y);
 			if (movimiento.bordeIzq()) {
@@ -149,13 +166,13 @@ public class Mario extends MyActor {
 		}
 	}
 
-	private void updateSpritePosition() {
-		float x, y;
-		x = body.getPosition().x * Constantes.PIXELS_TO_METERS - sprite.getWidth() / 2;
-		y = body.getPosition().y * Constantes.PIXELS_TO_METERS - sprite.getHeight() / 2;
-		sprite.setPosition(x, y);
-		sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
-	}
+//	private void updateSpritePosition() {
+//		float x, y;
+//		x = body.getPosition().x * Constantes.PIXELS_TO_METERS - sprite.getWidth() / 2;
+//		y = body.getPosition().y * Constantes.PIXELS_TO_METERS - sprite.getHeight() / 2;
+//		sprite.setPosition(x, y);
+//		sprite.setRotation(body.getAngle() * MathUtils.radiansToDegrees);
+//	}
 
 	@Override
 	public boolean isColisionable() {
