@@ -26,7 +26,6 @@ public class B2WorldCreator {
 		this.recorrerLayers(map, world, 2, bdef, body, shape, fdef);
 		// Tuberias
 		this.recorrerLayers(map, world, 3, bdef, body, shape, fdef);
-//		this.recorrerLayers(map, world, 4, bdef, body, shape, fdef);
 		// Monedas
 		this.recorrerLayers(map, world, 4, bdef, body, shape, fdef);
 		// Ladrillos

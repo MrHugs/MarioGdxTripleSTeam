@@ -11,15 +11,15 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		double width = screenSize.getWidth();
-		double height = screenSize.getHeight();
-		
-
-		
-		config.width=(int) width;
-		config.height=(int) height;
-		//config.fullscreen=true;
+//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//		double width = screenSize.getWidth();
+//		double height = screenSize.getHeight();
+//		
+//
+//		
+//		config.width=(int) width;
+//		config.height=(int) height;
+//		//config.fullscreen=true;
 		new LwjglApplication(new MyGdxGame(), config);
 	}
 }

@@ -28,7 +28,7 @@ public class Bala extends MyActor implements Cloneable {
 	TextureRegion textureRegion;
 	Texture texture;
 	MetricSize size;
-	BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("balaChachipi.json"));
+	BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("prueba.json"));
 	Vector2 origin;
 	boolean setForDrop = false;
 	boolean dead;
@@ -123,7 +123,11 @@ public class Bala extends MyActor implements Cloneable {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		body.setLinearVelocity(new Vector2(-2f, 0));
+		if (!dead) {
+			body.setLinearVelocity(new Vector2(-2f, 0));
+		}else {
+			body.setLinearVelocity(0,body.getLinearVelocity().y);
+		}
 		this.defineTextureRegion(new MetricVector2(body.getPosition().x, body.getPosition().y));
 	}
 

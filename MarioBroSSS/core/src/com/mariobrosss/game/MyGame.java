@@ -3,6 +3,9 @@ package com.mariobrosss.game;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -26,7 +29,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import actores.Bala;
 import actores.Cannon;
-import actores.CreadorBalas;
 import actores.Goomba;
 import actores.Mario;
 import actores.Suelo;
@@ -59,18 +61,15 @@ public class MyGame {
 	InputMultiplexer multiplexor;
 	Cannon cannonUno, cannonDos;
 	boolean pausa = false;
-	Timer timer;
 	ArrayList<Bala> listaBalas = new ArrayList<Bala>();
-	CreadorBalas creadorBalas;
+	int contador = 0;
 	public MyGame() {
 		super();
-		timer = new Timer();
 		world = new World(new Vector2(Constantes.GRAVEDAD_X, Constantes.GRAVEDAD_Y), true);
 		maploader = new TmxMapLoader();
 		map = maploader.load("level1.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);
 		new B2WorldCreator(world, map);
-
 		music = Gdx.audio.newMusic(Gdx.files.internal("marioTheme.mp3"));
 		batch = new SpriteBatch();
 		debugRenderer = new Box2DDebugRenderer();
@@ -93,15 +92,15 @@ public class MyGame {
 		bala = new Bala(new MetricVector2(34 * Constantes.PIXELS_TO_METERS, 0.56f * Constantes.PIXELS_TO_METERS), world,
 				new MetricSize(20, 15));
 		listaBalas.add(bala);
-//		creadorBalas = new CreadorBalas();
-//        timer.schedule(new TimerTask() {
-//
-//            @Override
-//            public void run() {
-//                createBullet();
-//            }
-//        }, 0, 2000);
-		stage.addActor(bala);
+		ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+
+		scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
+		    @Override
+		    public void run() {
+		       createBullet(); 
+		    }
+		}, 2, 2, TimeUnit.SECONDS);
+//		stage.addActor(bala);
 		stage.addActor(cannonUno);
 		stage.addActor(mario);
 		multiplexor = new InputMultiplexer();
@@ -122,19 +121,24 @@ public class MyGame {
 	}
 
 	public void createBullet() {
-		Bala nueva;
-		try {
-			nueva = (Bala) bala.clone();
-			listaBalas.add(nueva);
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		listaBalas.add(new Bala(new MetricVector2(34 * Constantes.PIXELS_TO_METERS, 0.56f * Constantes.PIXELS_TO_METERS), world,
+				new MetricSize(20, 15)));
+		for (Bala bala : listaBalas) {
+			System.out.println(bala.toString());
 		}
 	}
 
 	public void act() {
+		contador++;
+		if (contador == 90) {
+			createBullet();
+			contador = 0;
+		}
 		if (!pausa) {
 			world.step(1f / 60f, 6, 2);
+			for (Bala bala : listaBalas) {
+				bala.act(Gdx.graphics.getDeltaTime());
+			}
 			stage.act();
 			if (bala.isSetForDrop()) {
 				bala.drop();
@@ -158,21 +162,16 @@ public class MyGame {
 			if (bala.isDead())
 				iterator.remove();
 		}
-		createBullet();
 		batch.begin();
 		mario.draw(batch);
 		goomba.draw(batch);
 		cannonUno.draw(batch);
-		// suelo.draw(batch);
-		// suelo2.draw(batch);
-		// suelo3.draw(batch);
 		for (Bala bala : listaBalas) {
 			if (!bala.isDead())
 				bala.draw(batch);
 		}
 		batch.end();
 		debugRenderer.render(world, debugMatrix);
-
 	}
 
 	public void dispose() {
@@ -180,6 +179,6 @@ public class MyGame {
 		music.dispose();
 		batch.dispose();
 		stage.dispose();
-	}
 
+	}
 }
