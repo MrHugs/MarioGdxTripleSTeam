@@ -124,7 +124,6 @@ public class Bala extends MyActor implements Cloneable {
 	public void act(float delta) {
 		super.act(delta);
 		body.setLinearVelocity(new Vector2(-2f, 0));
-		updateSpritePosition();
 		this.defineTextureRegion(new MetricVector2(body.getPosition().x, body.getPosition().y));
 	}
 

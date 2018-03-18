@@ -71,9 +71,26 @@ public class MyGame  {
 		
 		
 		movimiento = new Movimiento(mario);
-
-//		
-		bala = new Bala(new MetricVector2(200, 100), world, new MetricSize(40, 30));
+		// suelo = new Suelo(new MetricVector2(1692f, -256f), new MetricSize(2048, 64),
+		// world);
+		// suelo2 = new Suelo(new MetricVector2(0f, 0), new MetricSize(64, 48), world);
+		// suelo2 = new Suelo(new MetricVector2(512f, 120f), new MetricSize(64, 48),
+		// world);
+		// bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
+		goomba = new Goomba(new MetricVector2(50, 20), world, new MetricSize(10, 10));
+		stage.addActor(goomba);
+		// stage.addActor(bala);
+		bala = new Bala(new MetricVector2(34 * Constantes.PIXELS_TO_METERS, 0.56f * Constantes.PIXELS_TO_METERS), world,
+				new MetricSize(20, 15));
+		listaBalas.add(bala);
+//		creadorBalas = new CreadorBalas();
+//        timer.schedule(new TimerTask() {
+//
+//            @Override
+//            public void run() {
+//                createBullet();
+//            }
+//        }, 0, 2000);
 		stage.addActor(bala);
 		stage.addActor(mario);
 		multiplexor = new InputMultiplexer();
