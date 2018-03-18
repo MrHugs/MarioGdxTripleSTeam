@@ -27,7 +27,7 @@ import utiles.Constantes;
 import utiles.MetricSize;
 import utiles.MetricVector2;
 
-public class MyGame  {
+public class MyGame implements ContactListener {
 
 	private static final float FactorZoomCamera = 1;
 	
@@ -82,6 +82,8 @@ public class MyGame  {
 		Gdx.input.setInputProcessor(multiplexor);
 		world.setContactListener(new ListenerSalto(mario));
 		world.setContactListener(new ListenerBalaDrop(mario, bala));
+		world.setContactListener(this);
+
 		movimiento.setCamera(camera);
 		camera.setMario(mario);
 		music.play();
@@ -128,6 +130,29 @@ public class MyGame  {
 		music.dispose();
 		batch.dispose();
 		stage.dispose();
+	}
+
+	@Override
+	public void beginContact(Contact contact) {
+		System.out.println("Pene");
+	}
+
+	@Override
+	public void endContact(Contact contact) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void preSolve(Contact contact, Manifold oldManifold) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postSolve(Contact contact, ContactImpulse impulse) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
