@@ -93,7 +93,7 @@ public class MyGame {
 		bala = new Bala(new MetricVector2(34 * Constantes.PIXELS_TO_METERS, 0.56f * Constantes.PIXELS_TO_METERS), world,
 				new MetricSize(20, 15));
 		listaBalas.add(bala);
-		creadorBalas = new CreadorBalas();
+//		creadorBalas = new CreadorBalas();
 //        timer.schedule(new TimerTask() {
 //
 //            @Override
