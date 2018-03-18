@@ -117,7 +117,7 @@ public class Mario extends MyActor {
 
 	public void draw(Batch batch) {
 		super.draw(batch, 1);
-		//sprite.draw(batch);
+		sprite.draw(batch);
 		elapsedTime += Gdx.graphics.getDeltaTime();
 		batch.draw((TextureRegion)animation.getKeyFrame(elapsedTime, true), 0, 0);
 
@@ -132,6 +132,8 @@ public class Mario extends MyActor {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+		System.out.println("X: "+body.getPosition().x);
+		System.out.println("Y: "+body.getPosition().y);
 		if (vida==0) {
 			System.out.println("HE PERDIDO");
 		}
