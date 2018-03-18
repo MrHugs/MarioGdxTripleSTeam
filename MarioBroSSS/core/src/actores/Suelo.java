@@ -68,7 +68,6 @@ public class Suelo extends Actor implements Elemento {
 	@Override
 	public void act(float delta) {
 		this.defineTextureRegion(new MetricVector2(body.getPosition().x, body.getPosition().y));
-
 	}
 
 	@Override

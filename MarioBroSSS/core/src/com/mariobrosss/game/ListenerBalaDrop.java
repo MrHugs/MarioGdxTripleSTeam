@@ -32,7 +32,7 @@ public class ListenerBalaDrop implements ContactListener {
 			if (contact.getFixtureB().getBody().getUserData().toString().equals("bala")) {
 				if (contact.getFixtureB().getBody().getPosition().y <= contact.getFixtureA().getBody()
 						.getPosition().y) {
-					mario.isJumping = 0;
+					mario.isJumping = false;
 					mario.body.applyForceToCenter(0f, 100f, true);
 					bala.setForDrop();
 
