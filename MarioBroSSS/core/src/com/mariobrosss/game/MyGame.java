@@ -1,5 +1,7 @@
 package com.mariobrosss.game;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
@@ -11,16 +13,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-
 
 import actores.Bala;
+import actores.Cannon;
+import actores.Goomba;
 import actores.Mario;
 import actores.Suelo;
 import utiles.Constantes;
@@ -48,14 +46,17 @@ public class MyGame  {
 	Bala bala;
 	InputAdapter prueba;
 	Music music;
+	Goomba goomba;
+	Cannon cannon;
+	ArrayList<Bala> listaBalas = new ArrayList<Bala>();
 	InputMultiplexer multiplexor;
 	
 	boolean pausa = false;
 
 	public MyGame() {
 		super();
-		
 		world = new World(new Vector2(Constantes.GRAVEDAD_X, Constantes.GRAVEDAD_Y), true);
+		cannon = new Cannon(new MetricVector2(34 * Constantes.PIXELS_TO_METERS, 0.56f * Constantes.PIXELS_TO_METERS), world, new MetricSize(150, 60));
 		maploader = new TmxMapLoader();
 		map  = maploader.load("level1.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);
@@ -71,11 +72,7 @@ public class MyGame  {
 		
 		
 		movimiento = new Movimiento(mario);
-		// suelo = new Suelo(new MetricVector2(1692f, -256f), new MetricSize(2048, 64),
-		// world);
-		// suelo2 = new Suelo(new MetricVector2(0f, 0), new MetricSize(64, 48), world);
-		// suelo2 = new Suelo(new MetricVector2(512f, 120f), new MetricSize(64, 48),
-		// world);
+		
 		// bala = new Bala(new MetricVector2(50, 130), world, new MetricSize(40, 30));
 		goomba = new Goomba(new MetricVector2(50, 20), world, new MetricSize(10, 10));
 		stage.addActor(goomba);
@@ -134,7 +131,8 @@ public class MyGame  {
 //		suelo.draw(batch);
 //		suelo2.draw(batch);
 //		suelo3.draw(batch);
-//		bala.draw(batch);
+		bala.draw(batch);
+		cannon.draw(batch);
 		batch.end();
 		debugRenderer.render(world, debugMatrix);
 
