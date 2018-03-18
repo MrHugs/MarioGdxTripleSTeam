@@ -57,7 +57,7 @@ public class MyGame {
 	InputAdapter prueba;
 	Music music;
 	InputMultiplexer multiplexor;
-	Cannon cannonUno, cannonDos;
+	Cannon cannonUno;
 	boolean pausa = false;
 	Timer timer;
 	ArrayList<Bala> listaBalas = new ArrayList<Bala>();
