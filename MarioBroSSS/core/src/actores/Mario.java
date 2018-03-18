@@ -132,8 +132,6 @@ public class Mario extends MyActor {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		System.out.println("X: "+body.getPosition().x);
-		System.out.println("Y: "+body.getPosition().y);
 		if (vida==0) {
 			System.out.println("HE PERDIDO");
 		}
@@ -143,8 +141,6 @@ public class Mario extends MyActor {
 				this.normal();
 			}
 		}
-//		System.out.println(derecheando +" DERECHEANDO");
-//		System.out.println(izquierdeando+ " IZQUIERDEANDO");
 		if (body.getLinearVelocity().y==0) {
 			setJumping(false);
 		}
